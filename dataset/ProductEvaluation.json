@@ -1,0 +1,26 @@
+{
+	"name": "ProductEvaluation",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TiaBlobStorageLink",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "produits_evaluations.csv",
+				"container": "storage1"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"type": "String"
+			}
+		]
+	}
+}

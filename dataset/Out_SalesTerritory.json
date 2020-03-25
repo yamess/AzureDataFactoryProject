@@ -1,0 +1,78 @@
+{
+	"name": "Out_SalesTerritory",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "outdb",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "noTerritoire",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NomTerritoire",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CodePaysRegion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ZoneGeographique",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RangVentesYTD",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "RangVentesLastYear",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "AmeliorationNetteVentes",
+				"type": "money",
+				"precision": 19,
+				"scale": 4
+			},
+			{
+				"name": "MargeProfitVenteYTD",
+				"type": "money",
+				"precision": 19,
+				"scale": 4
+			},
+			{
+				"name": "MargeProfitVenteLastYear",
+				"type": "money",
+				"precision": 19,
+				"scale": 4
+			},
+			{
+				"name": "EffectiveDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "ExpirationDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "CurrentStatus",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Territoire_Vente"
+		}
+	}
+}

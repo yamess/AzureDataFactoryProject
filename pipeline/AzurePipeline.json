@@ -1,0 +1,44 @@
+{
+	"name": "AzurePipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT\n           st.Name,\n           st.CountryRegionCode,\n           st.[Group],\n           RANK() OVER(ORDER BY (st.[SalesYTD]) DESC) AS 'RangVentesYTD',\n           RANK() OVER(ORDER BY (st.[SalesLastYear]) DESC) AS 'RangVentesLastYear',\n           (st.salesYTD)-(st.SalesLastYear) AS 'AméliorationNetteVentes',\n           (st.SalesYTD - st.CostYTD),\n           (st.SalesLastYear - st.CostLastYear),\n            GETDATE()\n    FROM SalesTerritory AS st",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "AzureSqlSink"
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "SalesTerritory",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Out_SalesTerritory",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
