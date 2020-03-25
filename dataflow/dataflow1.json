@@ -6,29 +6,19 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "SalesOrderDetails",
+						"referenceName": "SalesTerritory",
 						"type": "DatasetReference"
 					},
-					"name": "SalesOrderDetails"
-				},
-				{
-					"dataset": {
-						"referenceName": "ProductEvaluation",
-						"type": "DatasetReference"
-					},
-					"name": "ProductEvaluation"
-				},
-				{
-					"dataset": {
-						"referenceName": "ProductReview",
-						"type": "DatasetReference"
-					},
-					"name": "ProductReview"
+					"name": "SalesTerritory"
 				}
 			],
 			"sinks": [],
-			"transformations": [],
-			"script": "source(output(\n\t\tSalesOrderID as integer,\n\t\tSalesOrderDetailID as integer,\n\t\tCarrierTrackingNumber as string,\n\t\tOrderQty as integer,\n\t\tProductID as integer,\n\t\tSpecialOfferID as integer,\n\t\tUnitPrice as decimal(19,4),\n\t\tUnitPriceDiscount as decimal(19,4),\n\t\tLineTotal as decimal(38,6),\n\t\trowguid as string,\n\t\tModifiedDate as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SalesOrderDetails\nsource(output(\n\t\tColumn_1 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> ProductEvaluation\nsource(output(\n\t\tProductReviewID as integer,\n\t\tProductID as integer,\n\t\tReviewerName as string,\n\t\tReviewDate as timestamp,\n\t\tEmailAddress as string,\n\t\tRating as integer,\n\t\tComments as string,\n\t\tModifiedDate as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ProductReview"
+			"transformations": [
+				{
+					"name": "DerivedColumn1"
+				}
+			],
+			"script": "source(output(\n\t\tTerritoryID as integer,\n\t\tName as string,\n\t\tCountryRegionCode as string,\n\t\tGroup as string,\n\t\tSalesYTD as decimal(19,4),\n\t\tSalesLastYear as decimal(19,4),\n\t\tCostYTD as decimal(19,4),\n\t\tCostLastYear as decimal(19,4),\n\t\trowguid as string,\n\t\tModifiedDate as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SalesTerritory\nSalesTerritory derive() ~> DerivedColumn1"
 		}
 	}
 }
