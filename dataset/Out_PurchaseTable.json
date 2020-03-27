@@ -1,5 +1,5 @@
 {
-	"name": "Out_SalesTerritory",
+	"name": "Out_PurchaseTable",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "outdb",
@@ -9,70 +9,56 @@
 		"type": "AzureSqlTable",
 		"schema": [
 			{
-				"name": "noTerritoire",
+				"name": "PurchaseOrderID",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "NomTerritoire",
+				"name": "PurchaseOrderDetailID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CityName",
 				"type": "nvarchar"
 			},
 			{
-				"name": "CodePaysRegion",
+				"name": "StateName",
 				"type": "nvarchar"
 			},
 			{
-				"name": "ZoneGeographique",
+				"name": "SubTotal",
+				"type": "money",
+				"precision": 19,
+				"scale": 4
+			},
+			{
+				"name": "SupplierName",
 				"type": "nvarchar"
 			},
 			{
-				"name": "RangVentesYTD",
+				"name": "OrderQty",
 				"type": "smallint",
 				"precision": 5
 			},
 			{
-				"name": "RangVentesLastYear",
-				"type": "smallint",
-				"precision": 5
-			},
-			{
-				"name": "AmeliorationNetteVentes",
-				"type": "money",
-				"precision": 19,
-				"scale": 4
-			},
-			{
-				"name": "MargeProfitVenteYTD",
-				"type": "money",
-				"precision": 19,
-				"scale": 4
-			},
-			{
-				"name": "MargeProfitVenteLastYear",
-				"type": "money",
-				"precision": 19,
-				"scale": 4
-			},
-			{
-				"name": "EffectiveDate",
+				"name": "OrderDate",
 				"type": "datetime",
 				"precision": 23,
 				"scale": 3
 			},
 			{
-				"name": "ExpirationDate",
-				"type": "datetime",
-				"precision": 23,
-				"scale": 3
+				"name": "ProductName",
+				"type": "nvarchar"
 			},
 			{
-				"name": "CurrentStatus",
-				"type": "varchar"
+				"name": "SubCategogry",
+				"type": "nvarchar"
 			}
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "Territoire_Vente"
+			"table": "PurchaseTable"
 		}
 	}
 }

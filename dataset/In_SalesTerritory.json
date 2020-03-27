@@ -1,5 +1,5 @@
 {
-	"name": "In_SalesOrderDetails",
+	"name": "In_SalesTerritory",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AdventureWorks2014Link",
@@ -9,51 +9,45 @@
 		"type": "AzureSqlTable",
 		"schema": [
 			{
-				"name": "SalesOrderID",
+				"name": "TerritoryID",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "SalesOrderDetailID",
-				"type": "int",
-				"precision": 10
-			},
-			{
-				"name": "CarrierTrackingNumber",
+				"name": "Name",
 				"type": "nvarchar"
 			},
 			{
-				"name": "OrderQty",
-				"type": "smallint",
-				"precision": 5
+				"name": "CountryRegionCode",
+				"type": "nvarchar"
 			},
 			{
-				"name": "ProductID",
-				"type": "int",
-				"precision": 10
+				"name": "Group",
+				"type": "nvarchar"
 			},
 			{
-				"name": "SpecialOfferID",
-				"type": "int",
-				"precision": 10
-			},
-			{
-				"name": "UnitPrice",
+				"name": "SalesYTD",
 				"type": "money",
 				"precision": 19,
 				"scale": 4
 			},
 			{
-				"name": "UnitPriceDiscount",
+				"name": "SalesLastYear",
 				"type": "money",
 				"precision": 19,
 				"scale": 4
 			},
 			{
-				"name": "LineTotal",
-				"type": "decimal",
-				"precision": 38,
-				"scale": 6
+				"name": "CostYTD",
+				"type": "money",
+				"precision": 19,
+				"scale": 4
+			},
+			{
+				"name": "CostLastYear",
+				"type": "money",
+				"precision": 19,
+				"scale": 4
 			},
 			{
 				"name": "rowguid",
@@ -68,7 +62,7 @@
 		],
 		"typeProperties": {
 			"schema": "Sales",
-			"table": "SalesOrderDetail"
+			"table": "SalesTerritory"
 		}
 	}
 }

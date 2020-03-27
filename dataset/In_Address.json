@@ -1,0 +1,57 @@
+{
+	"name": "In_Address",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AdventureWorks2014Link",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "AddressID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "AddressLine1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AddressLine2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "City",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StateProvinceID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PostalCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SpatialLocation",
+				"type": "AdventureWorks2014.sys.geography"
+			},
+			{
+				"name": "rowguid",
+				"type": "uniqueidentifier"
+			},
+			{
+				"name": "ModifiedDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "Person",
+			"table": "Address"
+		}
+	}
+}

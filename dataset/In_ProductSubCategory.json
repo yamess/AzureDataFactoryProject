@@ -1,0 +1,41 @@
+{
+	"name": "In_ProductSubCategory",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AdventureWorks2014Link",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ProductSubcategoryID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ProductCategoryID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "rowguid",
+				"type": "uniqueidentifier"
+			},
+			{
+				"name": "ModifiedDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "Production",
+			"table": "ProductSubcategory"
+		}
+	}
+}

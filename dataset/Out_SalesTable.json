@@ -1,56 +1,65 @@
 {
-	"name": "ProductReview",
+	"name": "Out_SalesTable",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AdventureWorks2014Link",
+			"referenceName": "outdb",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",
 		"schema": [
 			{
-				"name": "ProductReviewID",
+				"name": "SalesOrderDetailID",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "ProductID",
-				"type": "int",
-				"precision": 10
-			},
-			{
-				"name": "ReviewerName",
+				"name": "CountryName",
 				"type": "nvarchar"
 			},
 			{
-				"name": "ReviewDate",
-				"type": "datetime",
-				"precision": 23,
-				"scale": 3
-			},
-			{
-				"name": "EmailAddress",
+				"name": "FullName",
 				"type": "nvarchar"
 			},
 			{
-				"name": "Rating",
-				"type": "int",
-				"precision": 10
-			},
-			{
-				"name": "Comments",
+				"name": "ProductName",
 				"type": "nvarchar"
 			},
 			{
-				"name": "ModifiedDate",
+				"name": "Category",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SubCategory",
+				"type": "nvarchar"
+			},
+			{
+				"name": "OrderQty",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "UnitPrice",
+				"type": "money",
+				"precision": 19,
+				"scale": 4
+			},
+			{
+				"name": "LineTotal",
+				"type": "money",
+				"precision": 19,
+				"scale": 4
+			},
+			{
+				"name": "OrderDate",
 				"type": "datetime",
 				"precision": 23,
 				"scale": 3
 			}
 		],
 		"typeProperties": {
-			"schema": "Production",
-			"table": "ProductReview"
+			"schema": "dbo",
+			"table": "SalesTable"
 		}
 	}
 }

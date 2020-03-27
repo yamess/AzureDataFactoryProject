@@ -1,0 +1,31 @@
+{
+	"name": "In_CountryRegion",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AdventureWorks2014Link",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CountryRegionCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ModifiedDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "Person",
+			"table": "CountryRegion"
+		}
+	}
+}
