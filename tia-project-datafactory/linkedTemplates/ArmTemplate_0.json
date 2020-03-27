@@ -1,0 +1,1254 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "tia-project-datafactory"
+		},
+		"AdventureWorks2014Link_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AdventureWorks2014Link'"
+		},
+		"SalesOrderHeaderLink_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SalesOrderHeaderLink'"
+		},
+		"TiaBlobStorageLink_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'TiaBlobStorageLink'"
+		},
+		"outdb_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'outdb'"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/AdventureWorks2014Link')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('AdventureWorks2014Link_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SalesOrderHeaderLink')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('SalesOrderHeaderLink_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/TiaBlobStorageLink')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('TiaBlobStorageLink_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/outdb')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('outdb_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/In_Address')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AdventureWorks2014Link",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "AddressID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "AddressLine1",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AddressLine2",
+						"type": "nvarchar"
+					},
+					{
+						"name": "City",
+						"type": "nvarchar"
+					},
+					{
+						"name": "StateProvinceID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "PostalCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SpatialLocation",
+						"type": "AdventureWorks2014.sys.geography"
+					},
+					{
+						"name": "rowguid",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "Person",
+					"table": "Address"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AdventureWorks2014Link')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/In_CountryRegion')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AdventureWorks2014Link",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CountryRegionCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "Person",
+					"table": "CountryRegion"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AdventureWorks2014Link')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/In_Person')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AdventureWorks2014Link",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "BusinessEntityID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "PersonType",
+						"type": "nchar"
+					},
+					{
+						"name": "NameStyle",
+						"type": "bit"
+					},
+					{
+						"name": "Title",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FirstName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MiddleName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LastName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Suffix",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmailPromotion",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "AdditionalContactInfo",
+						"type": "xml"
+					},
+					{
+						"name": "Demographics",
+						"type": "xml"
+					},
+					{
+						"name": "rowguid",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "Person",
+					"table": "Person"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AdventureWorks2014Link')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/In_Product')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AdventureWorks2014Link",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ProductID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ProductNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MakeFlag",
+						"type": "bit"
+					},
+					{
+						"name": "FinishedGoodsFlag",
+						"type": "bit"
+					},
+					{
+						"name": "Color",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SafetyStockLevel",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "ReorderPoint",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "StandardCost",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "ListPrice",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "Size",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SizeUnitMeasureCode",
+						"type": "nchar"
+					},
+					{
+						"name": "WeightUnitMeasureCode",
+						"type": "nchar"
+					},
+					{
+						"name": "Weight",
+						"type": "decimal",
+						"precision": 8,
+						"scale": 2
+					},
+					{
+						"name": "DaysToManufacture",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ProductLine",
+						"type": "nchar"
+					},
+					{
+						"name": "Class",
+						"type": "nchar"
+					},
+					{
+						"name": "Style",
+						"type": "nchar"
+					},
+					{
+						"name": "ProductSubcategoryID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ProductModelID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SellStartDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "SellEndDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "DiscontinuedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "rowguid",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "Production",
+					"table": "Product"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AdventureWorks2014Link')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/In_ProductCategory')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AdventureWorks2014Link",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ProductCategoryID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "rowguid",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "Production",
+					"table": "ProductCategory"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AdventureWorks2014Link')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/In_ProductSubCategory')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AdventureWorks2014Link",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ProductSubcategoryID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ProductCategoryID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "rowguid",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "Production",
+					"table": "ProductSubcategory"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AdventureWorks2014Link')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/In_SalesOrderDetails')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AdventureWorks2014Link",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SalesOrderID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SalesOrderDetailID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CarrierTrackingNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "OrderQty",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "ProductID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SpecialOfferID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "UnitPrice",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "UnitPriceDiscount",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "LineTotal",
+						"type": "decimal",
+						"precision": 38,
+						"scale": 6
+					},
+					{
+						"name": "rowguid",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "Sales",
+					"table": "SalesOrderDetail"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AdventureWorks2014Link')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/In_SalesOrderHeader')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AdventureWorks2014Link",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SalesOrderID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "RevisionNumber",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "OrderDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "DueDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "ShipDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "Status",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "OnlineOrderFlag",
+						"type": "bit"
+					},
+					{
+						"name": "SalesOrderNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PurchaseOrderNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AccountNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CustomerID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SalesPersonID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "TerritoryID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BillToAddressID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ShipToAddressID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ShipMethodID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CreditCardID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CreditCardApprovalCode",
+						"type": "varchar"
+					},
+					{
+						"name": "CurrencyRateID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SubTotal",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "TaxAmt",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "Freight",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "TotalDue",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "Comment",
+						"type": "nvarchar"
+					},
+					{
+						"name": "rowguid",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "Sales",
+					"table": "SalesOrderHeader"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AdventureWorks2014Link')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/In_SalesPerson')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AdventureWorks2014Link",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "BusinessEntityID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "TerritoryID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SalesQuota",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "Bonus",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "CommissionPct",
+						"type": "smallmoney",
+						"precision": 10,
+						"scale": 4
+					},
+					{
+						"name": "SalesYTD",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "SalesLastYear",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "rowguid",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "Sales",
+					"table": "SalesPerson"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AdventureWorks2014Link')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/In_SalesTerritory')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AdventureWorks2014Link",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "TerritoryID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CountryRegionCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Group",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SalesYTD",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "SalesLastYear",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "CostYTD",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "CostLastYear",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "rowguid",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "Sales",
+					"table": "SalesTerritory"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AdventureWorks2014Link')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/In_StateProvince')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AdventureWorks2014Link",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "StateProvinceID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "StateProvinceCode",
+						"type": "nchar"
+					},
+					{
+						"name": "CountryRegionCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "IsOnlyStateProvinceFlag",
+						"type": "bit"
+					},
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TerritoryID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "rowguid",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "Person",
+					"table": "StateProvince"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AdventureWorks2014Link')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Out_PurchaseTable')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "outdb",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "PurchaseOrderID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "PurchaseOrderDetailID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CityName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "StateName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SubTotal",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "SupplierName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "OrderQty",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "OrderDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "ProductName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SubCategogry",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "PurchaseTable"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/outdb')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Out_SalesTable')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "outdb",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SalesOrderDetailID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CountryName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FullName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ProductName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Category",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SubCategory",
+						"type": "nvarchar"
+					},
+					{
+						"name": "OrderQty",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "UnitPrice",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "LineTotal",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "OrderDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "SalesTable"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/outdb')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "In_SalesOrderDetails",
+								"type": "DatasetReference"
+							},
+							"name": "SalesOrderDetail"
+						},
+						{
+							"dataset": {
+								"referenceName": "In_SalesOrderHeader",
+								"type": "DatasetReference"
+							},
+							"name": "SalesOrderHeader"
+						},
+						{
+							"dataset": {
+								"referenceName": "In_Product",
+								"type": "DatasetReference"
+							},
+							"name": "Product"
+						},
+						{
+							"dataset": {
+								"referenceName": "In_ProductSubCategory",
+								"type": "DatasetReference"
+							},
+							"name": "ProductSubCategory"
+						},
+						{
+							"dataset": {
+								"referenceName": "In_ProductCategory",
+								"type": "DatasetReference"
+							},
+							"name": "ProductCategory"
+						},
+						{
+							"dataset": {
+								"referenceName": "In_SalesPerson",
+								"type": "DatasetReference"
+							},
+							"name": "SalesPerson"
+						},
+						{
+							"dataset": {
+								"referenceName": "In_Person",
+								"type": "DatasetReference"
+							},
+							"name": "Person"
+						},
+						{
+							"dataset": {
+								"referenceName": "In_Address",
+								"type": "DatasetReference"
+							},
+							"name": "Address"
+						},
+						{
+							"dataset": {
+								"referenceName": "In_StateProvince",
+								"type": "DatasetReference"
+							},
+							"name": "StateProvince"
+						},
+						{
+							"dataset": {
+								"referenceName": "In_CountryRegion",
+								"type": "DatasetReference"
+							},
+							"name": "CountryRegion"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "Out_SalesTable",
+								"type": "DatasetReference"
+							},
+							"name": "OutSalesData"
+						}
+					],
+					"transformations": [
+						{
+							"name": "SalesOrderHeaderJoined"
+						},
+						{
+							"name": "ProductJoined"
+						},
+						{
+							"name": "SubCategoryJoinded"
+						},
+						{
+							"name": "CategoryJoined"
+						},
+						{
+							"name": "SalesPersonJoined"
+						},
+						{
+							"name": "PersonJoined"
+						},
+						{
+							"name": "AddressJoined"
+						},
+						{
+							"name": "StateProvinceJoined"
+						},
+						{
+							"name": "CountryRegionJoined"
+						},
+						{
+							"name": "VendorFullName"
+						},
+						{
+							"name": "SelectColumns"
+						}
+					],
+					"script": "source(output(\n\t\tSalesOrderID as integer,\n\t\tSalesOrderDetailID as integer,\n\t\tCarrierTrackingNumber as string,\n\t\tOrderQty as integer,\n\t\tProductID as integer,\n\t\tSpecialOfferID as integer,\n\t\tUnitPrice as decimal(19,4),\n\t\tUnitPriceDiscount as decimal(19,4),\n\t\tLineTotal as decimal(38,6),\n\t\trowguid as string,\n\t\tModifiedDate as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SalesOrderDetail\nsource(output(\n\t\tSalesOrderID as integer,\n\t\tRevisionNumber as integer,\n\t\tOrderDate as timestamp,\n\t\tDueDate as timestamp,\n\t\tShipDate as timestamp,\n\t\tStatus as integer,\n\t\tOnlineOrderFlag as boolean,\n\t\tSalesOrderNumber as string,\n\t\tPurchaseOrderNumber as string,\n\t\tAccountNumber as string,\n\t\tCustomerID as integer,\n\t\tSalesPersonID as integer,\n\t\tTerritoryID as integer,\n\t\tBillToAddressID as integer,\n\t\tShipToAddressID as integer,\n\t\tShipMethodID as integer,\n\t\tCreditCardID as integer,\n\t\tCreditCardApprovalCode as string,\n\t\tCurrencyRateID as integer,\n\t\tSubTotal as decimal(19,4),\n\t\tTaxAmt as decimal(19,4),\n\t\tFreight as decimal(19,4),\n\t\tTotalDue as decimal(19,4),\n\t\tComment as string,\n\t\trowguid as string,\n\t\tModifiedDate as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SalesOrderHeader\nsource(output(\n\t\tProductID as integer,\n\t\tName as string,\n\t\tProductNumber as string,\n\t\tMakeFlag as boolean,\n\t\tFinishedGoodsFlag as boolean,\n\t\tColor as string,\n\t\tSafetyStockLevel as integer,\n\t\tReorderPoint as integer,\n\t\tStandardCost as decimal(19,4),\n\t\tListPrice as decimal(19,4),\n\t\tSize as string,\n\t\tSizeUnitMeasureCode as string,\n\t\tWeightUnitMeasureCode as string,\n\t\tWeight as decimal(8,2),\n\t\tDaysToManufacture as integer,\n\t\tProductLine as string,\n\t\tClass as string,\n\t\tStyle as string,\n\t\tProductSubcategoryID as integer,\n\t\tProductModelID as integer,\n\t\tSellStartDate as timestamp,\n\t\tSellEndDate as timestamp,\n\t\tDiscontinuedDate as timestamp,\n\t\trowguid as string,\n\t\tModifiedDate as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Product\nsource(output(\n\t\tProductSubcategoryID as integer,\n\t\tProductCategoryID as integer,\n\t\tName as string,\n\t\trowguid as string,\n\t\tModifiedDate as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ProductSubCategory\nsource(output(\n\t\tProductCategoryID as integer,\n\t\tName as string,\n\t\trowguid as string,\n\t\tModifiedDate as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ProductCategory\nsource(output(\n\t\tBusinessEntityID as integer,\n\t\tTerritoryID as integer,\n\t\tSalesQuota as decimal(19,4),\n\t\tBonus as decimal(19,4),\n\t\tCommissionPct as decimal(10,4),\n\t\tSalesYTD as decimal(19,4),\n\t\tSalesLastYear as decimal(19,4),\n\t\trowguid as string,\n\t\tModifiedDate as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SalesPerson\nsource(output(\n\t\tBusinessEntityID as integer,\n\t\tPersonType as string,\n\t\tNameStyle as boolean,\n\t\tTitle as string,\n\t\tFirstName as string,\n\t\tMiddleName as string,\n\t\tLastName as string,\n\t\tSuffix as string,\n\t\tEmailPromotion as integer,\n\t\tAdditionalContactInfo as string,\n\t\tDemographics as string,\n\t\trowguid as string,\n\t\tModifiedDate as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Person\nsource(output(\n\t\tAddressID as integer,\n\t\tAddressLine1 as string,\n\t\tAddressLine2 as string,\n\t\tCity as string,\n\t\tStateProvinceID as integer,\n\t\tPostalCode as string,\n\t\tSpatialLocation as binary,\n\t\trowguid as string,\n\t\tModifiedDate as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Address\nsource(output(\n\t\tStateProvinceID as integer,\n\t\tStateProvinceCode as string,\n\t\tCountryRegionCode as string,\n\t\tIsOnlyStateProvinceFlag as boolean,\n\t\tName as string,\n\t\tTerritoryID as integer,\n\t\trowguid as string,\n\t\tModifiedDate as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> StateProvince\nsource(output(\n\t\tCountryRegionCode as string,\n\t\tName as string,\n\t\tModifiedDate as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> CountryRegion\nSalesOrderDetail, SalesOrderHeader join(SalesOrderDetail@SalesOrderID == SalesOrderHeader@SalesOrderID,\n\tjoinType:'inner',\n\tbroadcast: 'none')~> SalesOrderHeaderJoined\nSalesOrderHeaderJoined, Product join(SalesOrderDetail@ProductID == Product@ProductID,\n\tjoinType:'inner',\n\tbroadcast: 'none')~> ProductJoined\nProductJoined, ProductSubCategory join(Product@ProductSubcategoryID == ProductCategoryID,\n\tjoinType:'inner',\n\tbroadcast: 'none')~> SubCategoryJoinded\nSubCategoryJoinded, ProductCategory join(ProductSubCategory@ProductCategoryID == ProductCategory@ProductCategoryID,\n\tjoinType:'inner',\n\tbroadcast: 'none')~> CategoryJoined\nCategoryJoined, SalesPerson join(SalesPersonID == BusinessEntityID,\n\tjoinType:'left',\n\tbroadcast: 'none')~> SalesPersonJoined\nSalesPersonJoined, Person join(SalesPerson@BusinessEntityID == Person@BusinessEntityID,\n\tjoinType:'left',\n\tbroadcast: 'none')~> PersonJoined\nPersonJoined, Address join(BillToAddressID == AddressID,\n\tjoinType:'inner',\n\tbroadcast: 'none')~> AddressJoined\nAddressJoined, StateProvince join(Address@StateProvinceID == StateProvince@StateProvinceID,\n\tjoinType:'inner',\n\tbroadcast: 'none')~> StateProvinceJoined\nStateProvinceJoined, CountryRegion join(StateProvince@CountryRegionCode == CountryRegion@CountryRegionCode,\n\tjoinType:'inner',\n\tbroadcast: 'none')~> CountryRegionJoined\nCountryRegionJoined derive(FullName = concat(trim(concat(Title,' ',FirstName)),' ',trim(concat(MiddleName,' ',LastName)))) ~> VendorFullName\nVendorFullName select(mapColumn(\n\t\tSalesOrderDetailID,\n\t\tCountry = CountryRegion@Name,\n\t\tFullName,\n\t\tProductName = Product@Name,\n\t\tCategory = ProductCategory@Name,\n\t\tSubCategory = ProductSubCategory@Name,\n\t\tOrderQty,\n\t\tUnitPrice,\n\t\tLineTotal,\n\t\tOrderDate,\n\t\tOnlineOrderFlag\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: false) ~> SelectColumns\nSelectColumns sink(input(\n\t\tSalesOrderDetailID as integer,\n\t\tCountryName as string,\n\t\tFullName as string,\n\t\tProductName as string,\n\t\tCategory as string,\n\t\tSubCategory as string,\n\t\tOrderQty as integer,\n\t\tUnitPrice as decimal(19,4),\n\t\tLineTotal as decimal(19,4),\n\t\tOrderDate as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> OutSalesData"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/In_SalesOrderDetails')]",
+				"[concat(variables('factoryId'), '/datasets/In_SalesOrderHeader')]",
+				"[concat(variables('factoryId'), '/datasets/In_Product')]",
+				"[concat(variables('factoryId'), '/datasets/In_ProductSubCategory')]",
+				"[concat(variables('factoryId'), '/datasets/In_ProductCategory')]",
+				"[concat(variables('factoryId'), '/datasets/In_SalesPerson')]",
+				"[concat(variables('factoryId'), '/datasets/In_Person')]",
+				"[concat(variables('factoryId'), '/datasets/In_Address')]",
+				"[concat(variables('factoryId'), '/datasets/In_StateProvince')]",
+				"[concat(variables('factoryId'), '/datasets/In_CountryRegion')]",
+				"[concat(variables('factoryId'), '/datasets/Out_SalesTable')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzurePipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "dataflow",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dataflow",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"SalesOrderDetail": {},
+									"SalesOrderHeader": {},
+									"Product": {},
+									"ProductSubCategory": {},
+									"ProductCategory": {},
+									"SalesPerson": {},
+									"Person": {},
+									"Address": {},
+									"StateProvince": {},
+									"CountryRegion": {},
+									"OutSalesData": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							}
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dataflow')]"
+			]
+		}
+	]
+}

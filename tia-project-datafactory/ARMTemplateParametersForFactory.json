@@ -1,0 +1,21 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "tia-project-datafactory"
+		},
+		"AdventureWorks2014Link_connectionString": {
+			"value": ""
+		},
+		"SalesOrderHeaderLink_connectionString": {
+			"value": ""
+		},
+		"TiaBlobStorageLink_connectionString": {
+			"value": ""
+		},
+		"outdb_connectionString": {
+			"value": ""
+		}
+	}
+}
