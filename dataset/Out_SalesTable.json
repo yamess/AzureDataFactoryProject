@@ -51,11 +51,6 @@
 				"scale": 4
 			},
 			{
-				"name": "OnlineOrderFlag",
-				"type": "smallint",
-				"precision": 5
-			},
-			{
 				"name": "StandarCost",
 				"type": "money",
 				"precision": 19,
